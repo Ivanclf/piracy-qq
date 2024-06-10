@@ -81,6 +81,7 @@ public class QQserver {
 
             }
         } catch (Exception e) {
+            System.out.println("网络连接异常，请检查网络后再试！");
             e.printStackTrace();
         }
     }

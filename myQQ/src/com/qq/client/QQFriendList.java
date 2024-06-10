@@ -14,30 +14,21 @@ import java.io.ObjectOutputStream;
 public class QQFriendList extends JFrame implements ActionListener, MouseListener {
 
     private static final long serialVersionUID = -7933056442552732399L;
-
     // 卡片布局
     CardLayout cardLayout;
-
     // 第一张卡片
     JPanel friendListTotal, friendListSeparate, panelForGroupChatListButton;
     JButton myFriendInList, groupChatInList;
     JScrollPane scrollPaneForList;
-
     // 第二张卡片
     JPanel groupChatTotal, groupChatSeparate, panelForGroupButtons;
     JButton myFriendInGroup, groupChatInGroup;
     JScrollPane scrollPaneForGroup;
-
-
     String ownerId;
-
     JLabel[] friendInit, groupInit;
     // 标记好友是否在线
     Boolean[] friendListOnlineFlag, groupOnlineFlag;//标记群成员在线情况
-
     String MultiChatID = "qunliao";
-
-    // 构造方法
     public QQFriendList(String ownerId) {
         this.ownerId = ownerId;
         // 处理第一张卡片(好友列表)

@@ -17,12 +17,12 @@ import java.util.Date;
 
 public class ClientChatView  extends JFrame  implements ActionListener{
 
-    JTextArea jta;
-    JTextField jtf;
-    JButton jb,jb2;
-    JPanel jp;
-    JScrollPane jsp;
-    JFileChooser fc;
+    JTextArea messageWindow;
+    JTextField messageInput;
+    JButton messageSend, fileSend;
+    JPanel panel;
+    JScrollPane scrollPane;
+    JFileChooser fileChooser;
 
     private String ownerId;
     private String friendId;
@@ -51,25 +51,26 @@ public class ClientChatView  extends JFrame  implements ActionListener{
         else {
             info = m.getSender() + "对" + m.getGetter() + "说：" + m.getContent() + "\r\n";
         }
-        jta.append(info);
+        messageWindow.append(info);
     }
 
     public ClientChatView(String ownerId,String friendId){
         this.ownerId = ownerId;
         this.friendId = friendId;
-        jta = new JTextArea();
-        jtf = new JTextField(20);
-        jsp = new JScrollPane(jta);
-        jb  = new JButton("发送");
-        jb2 = new JButton("文件");
-        fc = new JFileChooser();
-        jb2.addActionListener(this);
-        jp  = new JPanel();
-        jb.addActionListener(this);
+        messageWindow = new JTextArea();
+        messageInput = new JTextField(20);
+        scrollPane = new JScrollPane(messageWindow);
+        messageSend = new JButton("发送");
+        fileSend = new JButton("文件");
+        fileChooser = new JFileChooser();
+        fileSend.addActionListener(this);
+        panel = new JPanel();
+        messageSend.addActionListener(this);
+        messageWindow.setEditable(false);
 
-        jp.add(jb2);
-        jp.add(jtf);
-        jp.add(jb);
+        panel.add(fileSend);
+        panel.add(messageInput);
+        panel.add(messageSend);
 
         addWindowListener(new WindowAdapter() {
             @Override
@@ -79,8 +80,8 @@ public class ClientChatView  extends JFrame  implements ActionListener{
             }
         });
 
-        add(jsp,"Center");
-        add(jp,"South");
+        add(scrollPane,"Center");
+        add(panel,"South");
         setIconImage(new ImageIcon("images/icon.jpg").getImage());
         setTitle(this.getOwnerId()+"和"+this.getFriendId()+"聊天");
         setSize(400,300);
@@ -93,17 +94,17 @@ public class ClientChatView  extends JFrame  implements ActionListener{
 
     @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource() == jb){//发送消息
+        if(e.getSource() == messageSend){//发送消息
             Message m = new Message();
             m.setSender(this.ownerId);
             m.setGetter(this.friendId);
-            m.setContent(jtf.getText());
+            m.setContent(messageInput.getText());
             m.setMesType(MessageType.MESSAGE_COMMON);
             m.setSendTime(new Date().toString());
 
             String info = m.getSender()+"对"+m.getGetter()+"说："+m.getContent()+"\r\n";
-            jta.append(info);
-            jtf.setText("");
+            messageWindow.append(info);
+            messageInput.setText("");
 
             try{
                 ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerId).getS().getOutputStream());
@@ -112,11 +113,11 @@ public class ClientChatView  extends JFrame  implements ActionListener{
                 e1.printStackTrace();
             }
         }
-        else if (e.getSource() == jb2){//文件传输功能
+        else if (e.getSource() == fileSend){//文件传输功能
 
-            int select = fc.showOpenDialog(this);
+            int select = fileChooser.showOpenDialog(this);
             if(select == JFileChooser.APPROVE_OPTION){//选择的是否为确认
-                File file = fc.getSelectedFile();
+                File file = fileChooser.getSelectedFile();
                 System.out.println("文件"+file.getName()+" 被打开");
                 Message m = new Message();
                 m.setSender(this.ownerId);
@@ -126,8 +127,8 @@ public class ClientChatView  extends JFrame  implements ActionListener{
                 m.setFile(file);
 
                 String info = m.getSender()+" 给 "+m.getGetter()+"传输文件： "+file.getName()+"\r\n";
-                jta.append(info);
-                jtf.setText("");
+                messageWindow.append(info);
+                messageInput.setText("");
 
                 try{
                     ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerId).getS().getOutputStream());
@@ -138,9 +139,9 @@ public class ClientChatView  extends JFrame  implements ActionListener{
             }
         }
     }
-    //public static void main(String[] args){
+    public static void main(String[] args){
 
-      //  ClientChatView c = new ClientChatView("33","22");
-    //}
+        ClientChatView c = new ClientChatView("33","22");
+    }
 
 }

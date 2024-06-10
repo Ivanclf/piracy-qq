@@ -23,14 +23,14 @@ public class ManageClientThread {
     public static String getAllOnLineUserId() {
         // 使用迭代器进行遍历
         Iterator<String> it = hm.keySet().iterator();
-        String res = "";
+        StringBuilder res = new StringBuilder();
         //System.out.println("在while前");
         while (it.hasNext()) {
           //  System.out.println("在while中");
-            res += it.next() + " ";
+            res.append(it.next()).append(" ");
 
         }
         //System.out.println("在while后");
-        return res;
+        return res.toString();
     }
 }

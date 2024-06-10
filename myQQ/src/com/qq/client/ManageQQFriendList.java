@@ -6,7 +6,7 @@ package com.qq.client;
 import java.util.*;
 
 public class ManageQQFriendList {
-	private static HashMap<String, QQFriendList> hm = new HashMap<String, QQFriendList>();
+	private static HashMap<String, QQFriendList> hm = new HashMap<>();
 
 	// 将界面添加到集合中
 	public static void addQQFriendList(String uid, QQFriendList qqFriendList) {

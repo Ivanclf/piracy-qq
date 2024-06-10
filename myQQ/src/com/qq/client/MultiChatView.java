@@ -13,12 +13,12 @@ import java.util.Date;
 
 public class MultiChatView  extends JFrame implements ActionListener {
 
-    //private static final long serialVersionUID = 582207281703443438L;
-    JTextArea jta;
-    JTextField jtf;
-    JButton jb;
-    JPanel jp;
-    JScrollPane jsp;
+    private static final long serialVersionUID = 582207281703443438L;
+    JTextArea messageWindow;
+    JTextField messageInput;
+    JButton messageSend;
+    JPanel panel;
+    JScrollPane scrollPane;
     private String ownerID;
     private String MultiChatID;
     public String getOwnerID(){
@@ -37,22 +37,22 @@ public class MultiChatView  extends JFrame implements ActionListener {
     public void showMessages(Message m){
         String info = m.getSender()+"说："+m.getContent()+"\r\n";
         System.out.println("Multichat:"+info);
-        jta.append(info);
+        messageWindow.append(info);
     }
 
     public MultiChatView(String ownerID ,String MultiChatID){
         this.ownerID = ownerID;
         this.MultiChatID = MultiChatID;
 
-        jta = new JTextArea();
-        jsp = new JScrollPane(jta);
-        jtf = new JTextField(20);
-        jb = new JButton("发送");
-        jb.addActionListener(this);
-        jp = new JPanel();
+        messageWindow = new JTextArea();
+        scrollPane = new JScrollPane(messageWindow);
+        messageInput = new JTextField(20);
+        messageSend = new JButton("发送");
+        messageSend.addActionListener(this);
+        panel = new JPanel();
 
-        jp.add(jtf);
-        jp.add(jb);
+        panel.add(messageInput);
+        panel.add(messageSend);
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -61,29 +61,28 @@ public class MultiChatView  extends JFrame implements ActionListener {
             }
         });
 
-        add(jsp,"Center");
-        add(jp,"South");
+        add(scrollPane,"Center");
+        add(panel,"South");
         setTitle(MultiChatID+" ");
         setSize(400,300);
         setLocationRelativeTo(null);
         setVisible(true);
-
     }
 
     @Override
     public void actionPerformed(ActionEvent e){
-        if(e.getSource() == jb){
+        if(e.getSource() == messageSend){
             Message m = new Message();
             m.setSender(this.ownerID);
             m.setMultiChat(this.MultiChatID);
-            m.setContent(jtf.getText());
+            m.setContent(messageInput.getText());
             m.setMesType(MessageType.MESSAGE_MULTI);
             m.setSendTime(new Date().toString());
             String info = m.getSender()+"说："+m.getContent()+"\r\n";
             System.out.println(info);
 
-            jta.append(info);
-            jtf.setText("");
+            messageWindow.append(info);
+            messageInput.setText("");
 
             try{
                 ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerID).getS().getOutputStream());
@@ -92,5 +91,9 @@ public class MultiChatView  extends JFrame implements ActionListener {
                 e1.printStackTrace();
             }
         }
+    }
+
+    public static void main(String[] args){
+        new MultiChatView("22", "33");
     }
 }
