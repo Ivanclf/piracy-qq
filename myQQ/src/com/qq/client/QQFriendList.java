@@ -3,6 +3,9 @@
  */
 package com.qq.client;
 
+import com.qq.client.assistance.ManageClientConServerThread;
+import com.qq.client.assistance.ManageMultiChat;
+import com.qq.client.assistance.ManageQQChat;
 import com.qq.common.Message;
 import com.qq.common.MessageType;
 
@@ -43,7 +46,7 @@ public class QQFriendList extends JFrame implements ActionListener, MouseListene
         friendInit = new JLabel[50];
         friendListOnlineFlag = new Boolean[50];
         for (int i = 0; i < friendInit.length; i++) {
-            friendInit[i] = new JLabel(i + 1 + "", new ImageIcon("images/touxiang.png"), JLabel.LEFT);
+            friendInit[i] = new JLabel(String.valueOf(i + 1) , new ImageIcon("images/touxiang.png"), JLabel.LEFT);
             friendInit[i].setEnabled(false);
             friendListOnlineFlag[i] = false;
             if (friendInit[i].getText().equals(ownerId)) {
@@ -114,7 +117,7 @@ public class QQFriendList extends JFrame implements ActionListener, MouseListene
             public void windowClosing(WindowEvent e) {
                 super.windowClosing(e);
                 Message m = new Message();
-                m.setMesType(MessageType.MESSAGE_EXIT);
+                m.setMsgType(MessageType.MESSAGE_EXIT);
                 m.setSender(ownerId);
                 try {
                     ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(ownerId).getS().getOutputStream());

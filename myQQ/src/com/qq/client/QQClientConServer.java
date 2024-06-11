@@ -5,6 +5,8 @@ package com.qq.client;
 
 import java.io.*;
 import java.net.*;
+
+import com.qq.client.assistance.ManageClientConServerThread;
 import com.qq.common.*;
 public class QQClientConServer {
 	public Socket s;

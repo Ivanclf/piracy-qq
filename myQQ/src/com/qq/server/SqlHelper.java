@@ -7,9 +7,9 @@ import java.sql.*;
 
 public class SqlHelper {
     // 数据库变量
-    private Connection ct = null;
-    private PreparedStatement ps = null;
-    private ResultSet rs = null;
+    private Connection connection = null;
+    private PreparedStatement preparedStatement = null;
+    private ResultSet resultSet = null;
     private String driver = "com.mysql.jdbc.Driver";
     private String url = "jdbc:mysql://127.0.0.1:3306/QQdb";
     private String username = "root";
@@ -22,7 +22,7 @@ public class SqlHelper {
             // 连接驱动
             Class.forName(driver);
             // 获取连接
-            ct = DriverManager.getConnection(url, username, password);
+            connection = DriverManager.getConnection(url, username, password);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -56,56 +56,56 @@ public class SqlHelper {
         this.password = password;
     }
 
-    public Connection getCt() {
-        return ct;
+    public Connection getConnection() {
+        return connection;
     }
 
-    public void setCt(Connection ct) {
-        this.ct = ct;
+    public void setConnection(Connection connection) {
+        this.connection = connection;
     }
 
-    public PreparedStatement getPs() {
-        return ps;
+    public PreparedStatement getPreparedStatement() {
+        return preparedStatement;
     }
 
-    public void setPs(PreparedStatement ps) {
-        this.ps = ps;
+    public void setPreparedStatement(PreparedStatement preparedStatement) {
+        this.preparedStatement = preparedStatement;
     }
 
-    public ResultSet getRs() {
-        return rs;
+    public ResultSet getResultSet() {
+        return resultSet;
     }
 
-    public void setRs(ResultSet rs) {
-        this.rs = rs;
+    public void setResultSet(ResultSet resultSet) {
+        this.resultSet = resultSet;
     }
 
     // 查询功能
     public ResultSet queryExecute(String sql, String[] paras) {
         try {
             // 创建PreparedStatement
-            ps = ct.prepareStatement(sql);
-            // 给ps参数赋值
+            preparedStatement = connection.prepareStatement(sql);
+            // 给prepareStatement参数赋值
             for (int i = 0; i < paras.length; i++) {
-                ps.setString(i + 1, paras[i]);
+                preparedStatement.setString(i + 1, paras[i]);
             }
             //执行操作
-            rs = ps.executeQuery();
+            resultSet = preparedStatement.executeQuery();
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return rs;
+        return resultSet;
     }
 
     public Boolean InsertData(String sql, String[] paras) {
         boolean bl = false;
         try {
-            ps = ct.prepareStatement(sql);
+            preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < paras.length; i++) {
-                ps.setString(i + 1, paras[i]);
+                preparedStatement.setString(i + 1, paras[i]);
             }
-            bl = ps.execute();
+            bl = preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -116,14 +116,14 @@ public class SqlHelper {
     public void close() {
         // 关闭资源
         try {
-            if (rs != null) {
-                rs.close();
+            if (resultSet != null) {
+                resultSet.close();
             }
-            if (ps != null) {
-                ps.close();
+            if (preparedStatement != null) {
+                preparedStatement.close();
             }
-            if (ct != null) {
-                ct.close();
+            if (connection != null) {
+                connection.close();
             }
         } catch (Exception e2) {
             e2.printStackTrace();
@@ -131,7 +131,7 @@ public class SqlHelper {
     }
 
 //测试
-	/*public static void main(String[] args) {
+	public static void main(String[] args) {
 		SqlHelper helper = new SqlHelper();
 		String sql = "select * from QQUser where 1=?";
 		String[] paras = {"1"};
@@ -144,6 +144,6 @@ public class SqlHelper {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 }

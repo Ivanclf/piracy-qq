@@ -4,33 +4,29 @@ import java.util.HashMap;
 import java.util.Iterator;
 
 public class ManageClientThread {
-    public static HashMap<String,ServerConClientThread> hm = new HashMap<String, ServerConClientThread>();
+    public static HashMap<String,ServerConClientThread> threadOperation = new HashMap<>();
 
     public static void addClientThread(String uid,ServerConClientThread ct){
-        System.out.println("在hashmap中已添加"+uid);
-        hm.put(uid,ct);
+        threadOperation.put(uid,ct);
+        System.out.println("在hashmap中已添加 "+uid);
     }
 
     public static void removeClientThread(String uid){
-        hm.remove(uid);
+        threadOperation.remove(uid);
     }
 
     public static ServerConClientThread getClientThread(String uid){
-        return (ServerConClientThread) hm.get(uid);
+        return threadOperation.get(uid);
     }
 
     // 返回当前在线的人的情况
     public static String getAllOnLineUserId() {
-        // 使用迭代器进行遍历
-        Iterator<String> it = hm.keySet().iterator();
+        // 使用迭代器进行遍历，其中keySet用于找键，后面的迭代器对键遍历
+        Iterator<String> it = threadOperation.keySet().iterator();
         StringBuilder res = new StringBuilder();
-        //System.out.println("在while前");
         while (it.hasNext()) {
-          //  System.out.println("在while中");
             res.append(it.next()).append(" ");
-
         }
-        //System.out.println("在while后");
         return res.toString();
     }
 }

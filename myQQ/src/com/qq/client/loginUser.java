@@ -1,5 +1,8 @@
 package com.qq.client;
 
+import com.qq.client.assistance.ManageClientConServerThread;
+import com.qq.client.assistance.ManageQQFriendList;
+import com.qq.client.assistance.QQClientUser;
 import com.qq.common.Message;
 import com.qq.common.MessageType;
 import com.qq.common.User;
@@ -42,7 +45,7 @@ public class loginUser {
 
                         ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(u.getUserId()).getS().getOutputStream());
                         Message m = new Message();
-                        m.setMesType(MessageType.MESSAGE_GET_ONLINE_FRIEND);
+                        m.setMsgType(MessageType.MESSAGE_GET_ONLINE_FRIEND);
                         m.setSender(u.getUserId());
                         oos.writeObject(m);
                     } catch (Exception e1) {
@@ -70,7 +73,7 @@ public class loginUser {
 
                         ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(u.getUserId()).getS().getOutputStream());
                         Message m = new Message();
-                        m.setMesType(MessageType.MESSAGE_GET_ONLINE_FRIEND);
+                        m.setMsgType(MessageType.MESSAGE_GET_ONLINE_FRIEND);
                         m.setSender(u.getUserId());
                         oos.writeObject(m);
                     } catch (Exception e1) {

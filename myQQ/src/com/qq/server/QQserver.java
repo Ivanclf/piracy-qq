@@ -19,7 +19,7 @@ public class QQserver {
                 Socket socket = serverSocket.accept();
                 ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
                 User user = (User) ois.readObject();
-                System.out.println("账号： " + user.getUserId() + " 密码 ：" + user.getPasswd());
+                System.out.println("账号： " + user.getUserId() + " 密码：" + user.getPasswd());
                 //测试登录
                 Message msg = new Message();
                 ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
@@ -30,7 +30,7 @@ public class QQserver {
                 sqlHelper = new SqlHelper();
                 String sql = "select QQPassword from QQUser where QQuserId=?";
                 String[] paras = {user.getUserId()};
-                ResultSet resultSet = null;
+                ResultSet resultSet;
                 String password = null;
 
                 //注册部分
@@ -38,7 +38,7 @@ public class QQserver {
                     resultSet = sqlHelper.queryExecute(sql, paras);
                     //注册失败，名字已被占用
                     if (resultSet.next()) {
-                        msg.setMesType(MessageType.MESSAGE_LOGIN_FAIL);
+                        msg.setMsgType(MessageType.MESSAGE_LOGIN_FAIL);
                         oos.writeObject(msg);
                         socket.close();
                     } else {
@@ -47,11 +47,13 @@ public class QQserver {
                         String insertSql = "insert into QQUser values(?,?)";
                         String[] paras2 = {user.getUserId(), user.getPasswd()};
                         sqlHelper.InsertData(insertSql, paras2);
-                        msg.setMesType(MessageType.MESSAGE_SUCCEED);
+                        msg.setMsgType(MessageType.MESSAGE_SUCCEED);
                         oos.writeObject(msg);
+
                         ServerConClientThread serverConClientThread = new ServerConClientThread(socket);
                         ManageClientThread.addClientThread(user.getUserId(), serverConClientThread);
                         serverConClientThread.start();
+
                         System.out.println("注册用户成功，测试是否开始下一个： 用户: " + user.getUserId());
                         serverConClientThread.notifyAllOtherFriends(ManageClientThread.getAllOnLineUserId());
                     }
@@ -64,7 +66,7 @@ public class QQserver {
 
                     if (user.getPasswd().equals(password) && ManageClientThread.getClientThread(user.getUserId()) == null) {
                         //登录成功，开启一个新的线程连接
-                        msg.setMesType(MessageType.MESSAGE_SUCCEED);
+                        msg.setMsgType(MessageType.MESSAGE_SUCCEED);
                         oos.writeObject(msg);
                         ServerConClientThread serverConClientThread = new ServerConClientThread(socket);
                         ManageClientThread.addClientThread(user.getUserId(), serverConClientThread);
@@ -73,12 +75,11 @@ public class QQserver {
                         serverConClientThread.notifyAllOtherFriends(ManageClientThread.getAllOnLineUserId());
 
                     } else {
-                        msg.setMesType(MessageType.MESSAGE_LOGIN_FAIL);
+                        msg.setMsgType(MessageType.MESSAGE_LOGIN_FAIL);
                         oos.writeObject(msg);
                         socket.close();
                     }
                 }
-
             }
         } catch (Exception e) {
             System.out.println("网络连接异常，请检查网络后再试！");

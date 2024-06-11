@@ -3,10 +3,12 @@
  */
 package com.qq.client;
 
+import com.qq.client.assistance.ManageMultiChat;
+import com.qq.client.assistance.ManageQQChat;
+import com.qq.client.assistance.ManageQQFriendList;
 import com.qq.common.Message;
 import com.qq.common.MessageType;
 
-import javax.swing.plaf.synth.SynthLookAndFeel;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;

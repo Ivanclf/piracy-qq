@@ -79,7 +79,7 @@ public class Message implements Serializable {
 		return mesType;
 	}
 
-	public void setMesType(String mesType) {
+	public void setMsgType(String mesType) {
 		this.mesType = mesType;
 	}
 

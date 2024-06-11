@@ -1,13 +1,15 @@
 /**
  * 功能：管理用户聊天界面
  */
-package com.qq.client;
+package com.qq.client.assistance;
+
+import com.qq.client.ClientChatView;
 
 import java.util.*;
 
 
 public class ManageQQChat {
-	private static HashMap<String, ClientChatView> chatWindow = new HashMap<>();
+	private static final HashMap<String, ClientChatView> chatWindow = new HashMap<>();
 
 	// 加入一个聊天界面
 	public static void addQQChat(String loginIdAndFriendId, ClientChatView qqChat) {

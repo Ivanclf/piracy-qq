@@ -1,6 +1,8 @@
 package com.qq.client;
 
 
+import com.qq.client.assistance.ManageClientConServerThread;
+import com.qq.client.assistance.ManageQQChat;
 import com.qq.common.Message;
 import  com.qq.common.MessageType;
 
@@ -99,7 +101,7 @@ public class ClientChatView  extends JFrame  implements ActionListener{
             m.setSender(this.ownerId);
             m.setGetter(this.friendId);
             m.setContent(messageInput.getText());
-            m.setMesType(MessageType.MESSAGE_COMMON);
+            m.setMsgType(MessageType.MESSAGE_COMMON);
             m.setSendTime(new Date().toString());
 
             String info = m.getSender()+"对"+m.getGetter()+"说："+m.getContent()+"\r\n";
@@ -122,7 +124,7 @@ public class ClientChatView  extends JFrame  implements ActionListener{
                 Message m = new Message();
                 m.setSender(this.ownerId);
                 m.setGetter(this.friendId);
-                m.setMesType(MessageType.MESSAGE_FILE);
+                m.setMsgType(MessageType.MESSAGE_FILE);
                 m.setSendTime(new Date().toString());
                 m.setFile(file);
 

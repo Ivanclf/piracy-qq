@@ -1,5 +1,7 @@
 package com.qq.client;
 
+import com.qq.client.assistance.ManageClientConServerThread;
+import com.qq.client.assistance.ManageMultiChat;
 import com.qq.common.Message;
 import com.qq.common.MessageType;
 
@@ -76,7 +78,7 @@ public class MultiChatView  extends JFrame implements ActionListener {
             m.setSender(this.ownerID);
             m.setMultiChat(this.MultiChatID);
             m.setContent(messageInput.getText());
-            m.setMesType(MessageType.MESSAGE_MULTI);
+            m.setMsgType(MessageType.MESSAGE_MULTI);
             m.setSendTime(new Date().toString());
             String info = m.getSender()+"说："+m.getContent()+"\r\n";
             System.out.println(info);

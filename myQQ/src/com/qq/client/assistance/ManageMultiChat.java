@@ -1,21 +1,23 @@
-package com.qq.client;
+package com.qq.client.assistance;
+
+import com.qq.client.MultiChatView;
 
 import java.util.HashMap;
 
 public class ManageMultiChat {
-    private static HashMap<String, MultiChatView> hm = new HashMap<String, MultiChatView>();
+    private static final HashMap<String, MultiChatView> mutiChatOperator = new HashMap<>();
 
     // 加入一个聊天界面
     public static void addMultiChat(String loginIdAndMultiChatId, MultiChatView multiChat) {
-        hm.put(loginIdAndMultiChatId, multiChat);
+        mutiChatOperator.put(loginIdAndMultiChatId, multiChat);
     }
 
     // 获取一个聊天界面
     public static MultiChatView getMultiChat(String loginIdAndMultiChatId) {
-        return (MultiChatView) hm.get(loginIdAndMultiChatId);
+        return mutiChatOperator.get(loginIdAndMultiChatId);
     }
     //删除一个群聊界面
     public static void removeMultiChat(String loginIdAndMultiChatId){
-        hm.remove(loginIdAndMultiChatId);
+        mutiChatOperator.remove(loginIdAndMultiChatId);
     }
 }
