@@ -99,17 +99,17 @@ public class SqlHelper {
     }
 
     public Boolean InsertData(String sql, String[] paras) {
-        boolean bl = false;
+        boolean doNotError = false;
         try {
             preparedStatement = connection.prepareStatement(sql);
             for (int i = 0; i < paras.length; i++) {
                 preparedStatement.setString(i + 1, paras[i]);
             }
-            bl = preparedStatement.execute();
+            doNotError = preparedStatement.execute();
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return bl;
+        return doNotError;
     }
 
     // 关闭数据库资源
@@ -135,13 +135,12 @@ public class SqlHelper {
 		SqlHelper helper = new SqlHelper();
 		String sql = "select * from QQUser where 1=?";
 		String[] paras = {"1"};
-		ResultSet r = helper.queryExecute(sql, paras);
+		ResultSet resultSet = helper.queryExecute(sql, paras);
 		try {
-			while(r.next()){
-			System.out.println(r.getString("QQUserId") + " " + r.getString("QQPassword"));
+			while(resultSet.next()){
+			System.out.println(resultSet.getString("QQUserId") + " " + resultSet.getString("QQPassword"));
 			}
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}

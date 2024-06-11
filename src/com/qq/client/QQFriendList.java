@@ -14,6 +14,9 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.ObjectOutputStream;
 
+/**
+ * 请去friendList文件重构一下QQ好友列表代码
+ */
 public class QQFriendList extends JFrame implements ActionListener, MouseListener {
 
     private static final long serialVersionUID = -7933056442552732399L;

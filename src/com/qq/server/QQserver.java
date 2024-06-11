@@ -22,7 +22,7 @@ public class QQserver {
                 System.out.println("账号： " + user.getUserId() + " 密码：" + user.getPasswd());
                 //测试登录
                 Message msg = new Message();
-                ObjectOutputStream oos = new ObjectOutputStream(socket.getOutputStream());
+                ObjectOutputStream fromSocket = new ObjectOutputStream(socket.getOutputStream());
                 // System.out.println(m.getSender()+"已经连上");
                 //测试非数据库部分
                 // if(u.getUserId().equals("22") || u.getUserId().equals("33") || u.getUserId().equals("44"))
@@ -39,7 +39,7 @@ public class QQserver {
                     //注册失败，名字已被占用
                     if (resultSet.next()) {
                         msg.setMsgType(MessageType.MESSAGE_LOGIN_FAIL);
-                        oos.writeObject(msg);
+                        fromSocket.writeObject(msg);
                         socket.close();
                     } else {
                         //注册成功
@@ -48,13 +48,13 @@ public class QQserver {
                         String[] paras2 = {user.getUserId(), user.getPasswd()};
                         sqlHelper.InsertData(insertSql, paras2);
                         msg.setMsgType(MessageType.MESSAGE_SUCCEED);
-                        oos.writeObject(msg);
+                        fromSocket.writeObject(msg);
 
                         ServerConClientThread serverConClientThread = new ServerConClientThread(socket);
                         ManageClientThread.addClientThread(user.getUserId(), serverConClientThread);
                         serverConClientThread.start();
 
-                        System.out.println("注册用户成功，测试是否开始下一个： 用户: " + user.getUserId());
+//                        System.out.println("注册用户成功，测试是否开始下一个： 用户: " + user.getUserId());
                         serverConClientThread.notifyAllOtherFriends(ManageClientThread.getAllOnLineUserId());
                     }
                 } else//登录部分
@@ -67,16 +67,16 @@ public class QQserver {
                     if (user.getPasswd().equals(password) && ManageClientThread.getClientThread(user.getUserId()) == null) {
                         //登录成功，开启一个新的线程连接
                         msg.setMsgType(MessageType.MESSAGE_SUCCEED);
-                        oos.writeObject(msg);
+                        fromSocket.writeObject(msg);
                         ServerConClientThread serverConClientThread = new ServerConClientThread(socket);
                         ManageClientThread.addClientThread(user.getUserId(), serverConClientThread);
                         serverConClientThread.start();
-                        System.out.println("测试是否开始下一个： 用户: " + user.getUserId());
+//                        System.out.println("测试是否开始下一个： 用户: " + user.getUserId());
                         serverConClientThread.notifyAllOtherFriends(ManageClientThread.getAllOnLineUserId());
 
                     } else {
                         msg.setMsgType(MessageType.MESSAGE_LOGIN_FAIL);
-                        oos.writeObject(msg);
+                        fromSocket.writeObject(msg);
                         socket.close();
                     }
                 }

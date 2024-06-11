@@ -8,16 +8,17 @@ use QQdb;
 create table QQUser
 (
 	QQUserId char(20) primary key,	#账号
-	QQPassword char(16) not null	#密码
+	QQPassword char(16) not null,	#密码
+    QQfriend int(50) not null	#列表
 );
 
 #插入测试用例
-insert into QQUser values('1','123456');
-insert into QQUser values('2','123456');
-insert into QQUser values('3','123456');
-insert into QQUser values('4','123');
-insert into QQUser values('5','123');
-insert into QQUser values('6','123456');
+insert into QQUser values('1','123456','1');
+insert into QQUser values('2','123456','3,4');
+insert into QQUser values('3','123456','2');
+insert into QQUser values('4','123','2');
+insert into QQUser values('5','123','');
+insert into QQUser values('6','123456','1');
 
 #查询用户表
 select * from QQUser;
