@@ -17,8 +17,7 @@ public class QQserver {
             ServerSocket serverSocket = new ServerSocket(port);
             while (true) {
                 Socket socket = serverSocket.accept();
-                ObjectInputStream ois = new ObjectInputStream(socket.getInputStream());
-                User user = (User) ois.readObject();
+                User user = (User) new ObjectInputStream(socket.getInputStream()).readObject();
                 System.out.println("账号： " + user.getUserId() + " 密码：" + user.getPasswd());
                 //测试登录
                 Message msg = new Message();
@@ -30,12 +29,11 @@ public class QQserver {
                 sqlHelper = new SqlHelper();
                 String sql = "select QQPassword from QQUser where QQuserId=?";
                 String[] paras = {user.getUserId()};
-                ResultSet resultSet;
+                ResultSet resultSet = sqlHelper.queryExecute(sql, paras);
                 String password = null;
 
                 //注册部分
                 if (user.getIsRegister()) {
-                    resultSet = sqlHelper.queryExecute(sql, paras);
                     //注册失败，名字已被占用
                     if (resultSet.next()) {
                         msg.setMsgType(MessageType.MESSAGE_LOGIN_FAIL);

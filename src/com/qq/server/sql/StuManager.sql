@@ -9,7 +9,7 @@ use QQdb;
 create table QQUser
 (	QQUserId char(20) primary key,
 	QQPassword char(16) not null,
-    QQfriend varchar(50),
+    QQFriend varchar(50),
     sticker varchar(100)
 );
 
