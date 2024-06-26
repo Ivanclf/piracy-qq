@@ -11,7 +11,11 @@ import com.qq.common.*;
 public class QQClientConServer {
 	public Socket s;
 
-	// 发送第一次请求
+	/**
+	 * 登录链接服务器
+	 * @param o
+	 * @return 连接是否成功
+	 */
 	public boolean SendLoginInfoTOServer(Object o) {
 		boolean b = false;
 		try {
@@ -44,6 +48,11 @@ public class QQClientConServer {
 		return b;
 	}
 
+	/**
+	 * 注册链接服务器
+	 * @param o
+	 * @return 链接是否成功
+	 */
 	public boolean SendRegisterInfoTOServer(Object o) {
 		boolean b = false;
 		try {

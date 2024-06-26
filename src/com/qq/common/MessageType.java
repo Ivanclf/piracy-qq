@@ -28,9 +28,6 @@ public interface MessageType {
 	 * 表示离开
 	 */
 	String MESSAGE_EXIT = "6";
-	/**
-	 * 表示群聊信息
-	 */
-	String MESSAGE_MULTI = "7";
+
 	String MESSAGE_FILE = "8";
 }

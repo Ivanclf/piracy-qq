@@ -15,7 +15,6 @@ public class QQserver {
      */
     public QQserver() {
         try {
-
             ServerSocket serverSocket = new ServerSocket(port);
             while (true) {
                 Socket socket = serverSocket.accept();
@@ -30,11 +29,9 @@ public class QQserver {
                 //数据库部分
                 sqlHelper = new SqlHelper();
                 String idCheck = "select QQPassword from QQUser where QQuserId=?";
-                String friendAmountCheck = "select QQfriend from QQUser where QQuserId=?";
                 String[] paras = {user.getUserId()};
                 ResultSet resultSet = sqlHelper.queryExecute(idCheck, paras);
                 String password = null;
-                int friendAmount = 0;
 
                 //注册部分
                 if (user.getIsRegister()) {
@@ -64,13 +61,11 @@ public class QQserver {
                     resultSet = sqlHelper.queryExecute(idCheck, paras);
                     if (resultSet.next()) {
                         password = resultSet.getString("QQPassword").trim();
-                        friendAmount = Integer.parseInt(resultSet.getString("QQfriend").trim());
                     }
 
                     if (user.getPasswd().equals(password) && ManageClientThread.getClientThread(user.getUserId()) == null) {
                         //登录成功，开启一个新的线程连接
                         msg.setMsgType(MessageType.MESSAGE_SUCCEED);
-                        msg.setFriendAmount(friendAmount);
                         fromSocket.writeObject(msg);
                         ServerConClientThread serverConClientThread = new ServerConClientThread(socket);
                         ManageClientThread.addClientThread(user.getUserId(), serverConClientThread);

@@ -41,12 +41,7 @@ public class ServerConClientThread extends Thread {
         while (true){
             try{
                 Message msg = (Message) new ObjectInputStream(socket.getInputStream()).readObject();
-                if(msg.getMultiChat() != null){
-                    System.out.println(msg.getSender()+"给"+msg.getMultiChat()+"内容为："+msg.getContent());
-                }
-                else {
                     System.out.println(msg.getSender() + "给" + msg.getGetter() + "内容为：" + msg.getContent());
-                }
                 switch (msg.getMesType()) {
                     //普通消息
                     case MessageType.MESSAGE_COMMON:
@@ -72,18 +67,6 @@ public class ServerConClientThread extends Thread {
                         notifyAllOtherFriends(ManageClientThread.getAllOnLineUserId());
                         break;
                     }
-                    //群聊消息
-                    case MessageType.MESSAGE_MULTI:
-                        // System.out.println("测试：" + msg.getContent());
-                        for (int i = 0; i <= 20; i++) {
-                            if ((ManageClientThread.getClientThread(String.valueOf(i)) != null) && (!String.valueOf(i).equals(msg.getSender()))) {
-                                msg.setGetter(String.valueOf(i));
-                                clientThread = ManageClientThread.getClientThread(String.valueOf(i));
-                                new ObjectOutputStream(clientThread.socket.getOutputStream()).writeObject(msg);
-                                System.out.println("给：" + i + " 消息发送成功");
-                            }
-                        }
-                        break;
                 }
             }catch (Exception e){
                 System.out.println("发生了线程错误，请检查后再试！");

@@ -36,10 +36,6 @@ public class Message implements Serializable {
 	 * 时间
 	 */
 	private String sendTime;
-	/**
-	 * 群聊信息
-	 */
-	private String MultiChat;
 
 	private File file;
 	
@@ -81,14 +77,6 @@ public class Message implements Serializable {
 
 	public void setMsgType(String mesType) {
 		this.mesType = mesType;
-	}
-
-	public void setMultiChat(String multiChat) {
-		MultiChat = multiChat;
-	}
-
-	public String getMultiChat() {
-		return MultiChat;
 	}
 
 	public File getFile(){

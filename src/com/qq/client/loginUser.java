@@ -40,7 +40,7 @@ public class loginUser {
 
                 if (qqClientUser.checkUser(u)) {
                     try {
-                        QQFriendList qqlist = new QQFriendList(u.getUserId(), u.getFriendAmount());
+                        friendList qqlist = new friendList(u.getUserId());
                         ManageQQFriendList.addQQFriendList(u.getUserId(), qqlist);
                         ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(u.getUserId()).getSocket().getOutputStream());
                         Message m = new Message();
@@ -68,7 +68,7 @@ public class loginUser {
                 u.setIsRegister(true);
                 if (qqClientUser.checkRegisterUser(u)) {
                     try {
-                        QQFriendList qqlist = new QQFriendList(u.getUserId(), u.getFriendAmount());
+                        friendList qqlist = new friendList(u.getUserId());
                         ManageQQFriendList.addQQFriendList(u.getUserId(), qqlist);
 
                         ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(u.getUserId()).getSocket().getOutputStream());
