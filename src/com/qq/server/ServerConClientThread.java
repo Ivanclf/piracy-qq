@@ -4,32 +4,36 @@ import com.qq.common.Message;
 import com.qq.common.MessageType;
 
 import java.net.*;
+import java.sql.ResultSet;
 import java.util.*;
 import java.io.*;
 
 public class ServerConClientThread extends Thread {
+    private SqlHelper sqlHelper = new SqlHelper();
+    private ResultSet resultSet;
     private final Socket socket;
-    ServerConClientThread clientThread;
+    private final String amountCheck = "select QQfriend from QQUser where QQuserId=?";
+    private String[] paras;
+    private ServerConClientThread clientThread;
+    private String varcharValue;
     public ServerConClientThread(Socket socket){
         this.socket = socket;
     }
 
     public void notifyAllOtherFriends(String notifyString){
         HashMap<String,?> threadOperation = ManageClientThread.threadOperation;
-        Iterator<String> it = threadOperation.keySet().iterator();
 
-        while(it.hasNext()){
+        for (String s : threadOperation.keySet()) {
             Message msg = new Message();
             msg.setContent(notifyString);
             msg.setMsgType(MessageType.MESSAGE_RET_ONLINE_FRIEND);
-            String onId = it.next();
 
-            if(threadOperation.get(onId) != null) {
+            if (threadOperation.get(s) != null) {
                 try {
-                    ObjectOutputStream oos = new ObjectOutputStream(ManageClientThread.getClientThread(onId).socket.getOutputStream());
-                    msg.setGetter(onId);
+                    ObjectOutputStream oos = new ObjectOutputStream(ManageClientThread.getClientThread(s).socket.getOutputStream());
+                    msg.setGetter(s);
                     oos.writeObject(msg);
-                    System.out.println("要发送给" + onId + " " + notifyString + "刚上线的消息");
+                    System.out.println("要发送给" + s + " " + notifyString + "刚上线的消息");
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -41,7 +45,8 @@ public class ServerConClientThread extends Thread {
         while (true){
             try{
                 Message msg = (Message) new ObjectInputStream(socket.getInputStream()).readObject();
-                    System.out.println(msg.getSender() + "给" + msg.getGetter() + "内容为：" + msg.getContent());
+                paras = new String[]{msg.getSender()};
+                System.out.println(msg.getSender() + "给" + msg.getGetter() + "内容为：" + msg.getContent());
                 switch (msg.getMesType()) {
                     //普通消息
                     case MessageType.MESSAGE_COMMON:
@@ -51,25 +56,30 @@ public class ServerConClientThread extends Thread {
                         System.out.println("消息或文件发送成功");
                         break;
                     }
-                    //获取好友信息
+                    //获取在线好友信息
                     case MessageType.MESSAGE_GET_ONLINE_FRIEND: {
                         System.out.println(msg.getSender() + " 获取他的好友");
-                        String allOnLineUserId = ManageClientThread.getAllOnLineUserId();
-                        System.out.println(msg.getSender() + " 的好友有 " + allOnLineUserId);
-                        msg.setContent(allOnLineUserId);
+                        String[] allOnLineUserId = ManageClientThread.getAllOnLineUserId().split(" ");
+                        resultSet = sqlHelper.queryExecute(amountCheck, paras);
+                        while (resultSet.next()){
+                            varcharValue = resultSet.getString("QQfriend").replace(",", " ");
+                        }
+                        System.out.println(msg.getSender() + " 的好友有 " + varcharValue);
+                        msg.setContent(Arrays.toString(allOnLineUserId));
                         new ObjectOutputStream(socket.getOutputStream()).writeObject(msg);
                         break;
                     }
                     //离开消息
                     case MessageType.MESSAGE_EXIT: {
-                        ManageClientThread.removeClientThread(msg.getSender());
                         //发送下线消息
+                        ManageClientThread.removeClientThread(msg.getSender());
                         notifyAllOtherFriends(ManageClientThread.getAllOnLineUserId());
-                        break;
+                        this.interrupt();
                     }
                 }
             }catch (Exception e){
                 System.out.println("发生了线程错误，请检查后再试！");
+                this.interrupt();
                 e.printStackTrace();
             }
         }

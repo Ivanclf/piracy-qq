@@ -3,21 +3,21 @@
  */
 package com.qq.client.assistance;
 
-import com.qq.client.ClientChatView;
+import com.qq.client.chatView;
 
 import java.util.*;
 
 
 public class ManageQQChat {
-	private static final HashMap<String, ClientChatView> chatWindow = new HashMap<>();
+	private static final HashMap<String, chatView> chatWindow = new HashMap<>();
 
 	// 加入一个聊天界面
-	public static void addQQChat(String loginIdAndFriendId, ClientChatView qqChat) {
+	public static void addQQChat(String loginIdAndFriendId, chatView qqChat) {
 		chatWindow.put(loginIdAndFriendId, qqChat);
 	}
 
 	// 获取一个聊天界面
-	public static ClientChatView getQQChat(String loginIdAndFriendId) {
+	public static chatView getQQChat(String loginIdAndFriendId) {
 		return chatWindow.get(loginIdAndFriendId);
 	}
 

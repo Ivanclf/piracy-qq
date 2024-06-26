@@ -12,9 +12,6 @@ import java.io.File;
 import java.io.Serializable;
 
 public class Message implements Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 5160728458299623666L;
 	/**
 	 * 消息种类

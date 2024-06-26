@@ -10,7 +10,7 @@ public class SqlHelper {
     private Connection connection = null;
     private PreparedStatement preparedStatement = null;
     private ResultSet resultSet = null;
-    private String driver = "com.mysql.jdbc.Driver";
+    private String driver = "com.mysql.cj.jdbc.Driver";
     private String url = "jdbc:mysql://127.0.0.1:3306/QQdb";
     private String username = "root";
     @SuppressWarnings("unused")

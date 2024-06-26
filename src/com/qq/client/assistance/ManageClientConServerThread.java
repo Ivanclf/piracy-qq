@@ -6,8 +6,10 @@ package com.qq.client.assistance;
 import com.qq.client.ClientConServerThread;
 import java.util.*;
 
+/**
+ * 客户端与服务器连接的集合
+ */
 public class ManageClientConServerThread {
-	// 客户端与服务器连接的集合
 	private static final HashMap<String, ClientConServerThread> threadOperator = new HashMap<>();
 
 	/**

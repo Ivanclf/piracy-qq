@@ -57,13 +57,12 @@ public class ClientConServerThread extends Thread {
                     // getter是相对于服务器的接收者，也就是自己的QQ
                     String getter = m.getGetter();
                     System.out.println("getter=" + getter + "\t" + con);
-
+                    String[] temp = con.split(" ");
                     // 修改相应的好友列表
                     friendList friendList = ManageQQFriendList.getFriendList(getter);
+                    friendList.setAmount(temp.length);
                     // 更新在线好友
-                    if (friendList != null) {
-                        friendList.updateFriend(m);
-                    }
+                    friendList.updateFriend(m);
                 }
             } catch (Exception e) {
                 e.printStackTrace();

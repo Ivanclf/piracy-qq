@@ -13,9 +13,9 @@ public class friendList extends JFrame implements MouseListener {
     private String userId = null;
     private JPanel friendListTotal, friendListSeparate;
     private JLabel[] friendInit;
-    private boolean[] friendListOnlineFlag, groupOnlineFlag; //标记群成员在线情况
+    private boolean[] friendListOnlineFlag; //标记成员在线情况
     private JScrollPane scrollPaneForList;
-
+    private int amount = 0;
     private String imagePath = "images/icon.jpg";
     public friendList(String userId){
         this.userId = userId;
@@ -25,8 +25,8 @@ public class friendList extends JFrame implements MouseListener {
         friendListSeparate = new JPanel(new GridLayout(10,1,4,4));
 
         // 初始化好友
-        friendInit = new JLabel[10];
-        friendListOnlineFlag = new boolean[10];
+        friendInit = new JLabel[amount];
+        friendListOnlineFlag = new boolean[amount];
         for(int i = 0; i < friendInit.length; i++){
             friendInit[i] = new JLabel(String.valueOf(i + 1) , new ImageIcon("images/touxiang.png"), JLabel.LEFT);
             friendInit[i].setEnabled(false);
@@ -82,7 +82,7 @@ public class friendList extends JFrame implements MouseListener {
     public void updateFriend(Message m) {
         this.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         String[] onLineFriend = m.getContent().split(" ");
-        for (int i = 0; i < 50; i++) {
+        for (int i = 0; i < amount; i++) {
             friendInit[i].setEnabled(false);
             friendListOnlineFlag[i] = false;
         }
@@ -116,6 +116,15 @@ public class friendList extends JFrame implements MouseListener {
         JLabel label = (JLabel) e.getSource();
         label.setForeground(Color.BLACK);
     }
+
+    public int getAmount() {
+        return amount;
+    }
+
+    public void setAmount(int amount) {
+        this.amount = amount;
+    }
+
 
     public static void main(String[] args){
         new friendList("1");

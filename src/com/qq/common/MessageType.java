@@ -28,6 +28,8 @@ public interface MessageType {
 	 * 表示离开
 	 */
 	String MESSAGE_EXIT = "6";
-
-	String MESSAGE_FILE = "8";
+	/**
+	 * 文件包
+	 */
+	String MESSAGE_FILE = "7";
 }
