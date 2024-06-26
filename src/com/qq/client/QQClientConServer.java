@@ -62,9 +62,7 @@ public class QQClientConServer {
 				ClientConServerThread ccst = new ClientConServerThread(s);
 				// 启动该线程
 				ccst.start();
-				ManageClientConServerThread.addClientConServerThread(
-						((User) o).getUserId(), ccst);
-
+				ManageClientConServerThread.addClientConServerThread(((User) o).getUserId(), ccst);
 				b = true;
 			} else {
 				// 关闭Socket

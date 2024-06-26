@@ -25,7 +25,7 @@ public class ClientConServerThread extends Thread {
         this.s = s;
     }
 
-    public Socket getS() {
+    public Socket getSocket() {
         return s;
     }
 
@@ -90,10 +90,8 @@ public class ClientConServerThread extends Thread {
                     FileOutputStream fos = new FileOutputStream(file);
                     try {
                         byte[] buf = new byte[1024];
-                        //记录实际读取到的字节
-                        int n = 0;
                         //循环读取
-                        while ((n = fis.read(buf)) != -1) {
+                        while (fis.read(buf) != -1) {
                             //输出到指定文件
                             fos.write(buf);
                         }

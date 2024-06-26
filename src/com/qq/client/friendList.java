@@ -30,11 +30,12 @@ public class friendList extends JFrame implements ActionListener, MouseListener 
 
 
         // 设置窗体
-        setTitle("QQ Chat" + "\t" + userId);
+        setTitle("QQ Chat" + " " + userId);
         setIconImage(new ImageIcon(imagePath).getImage());
         setSize(350, 700);
         setLocationRelativeTo(null);
         setVisible(true);
+        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
     public void setImagePath(String imagePath) {
@@ -87,5 +88,9 @@ public class friendList extends JFrame implements ActionListener, MouseListener 
     public void mouseExited(MouseEvent e) {
         JLabel label = (JLabel) e.getSource();
         label.setForeground(Color.BLACK);
+    }
+
+    public static void main(String[] args){
+        new friendList("22");
     }
 }

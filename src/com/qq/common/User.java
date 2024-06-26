@@ -25,6 +25,10 @@ public class User implements Serializable {
 	 * 是否注册
 	 */
 	private Boolean isRegister;
+	/**
+	 * 好友个数
+	 */
+	private int friendAmount = 0;
 
 	public String getUserId() {
 		return userId;
@@ -48,5 +52,13 @@ public class User implements Serializable {
 
 	public void setIsRegister(Boolean isRegister) {
 		this.isRegister = isRegister;
+	}
+
+	public int getFriendAmount() {
+		return friendAmount;
+	}
+
+	public void setFriendAmount(int friendAmount) {
+		this.friendAmount = friendAmount;
 	}
 }

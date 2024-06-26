@@ -7,11 +7,21 @@ import com.qq.client.QQClientConServer;
 import com.qq.common.User;
 
 public class QQClientUser {
-	
-	// 检验用户合法性
+
+	/**
+	 * 检验登录用户合法性
+	 * @param user
+	 * @return 链接是否成功
+	 */
 	public boolean checkUser(User user) {
 		return new QQClientConServer().SendLoginInfoTOServer(user);
 	}
+
+	/**
+	 * 检验注册用户合法性
+	 * @param user
+	 * @return 链接是否成功
+	 */
 	public boolean checkRegisterUser(User user){
 		return  new QQClientConServer().SendRegisterInfoTOServer(user);
 	}

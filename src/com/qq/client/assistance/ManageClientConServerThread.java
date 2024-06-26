@@ -10,12 +10,20 @@ public class ManageClientConServerThread {
 	// 客户端与服务器连接的集合
 	private static final HashMap<String, ClientConServerThread> threadOperator = new HashMap<>();
 
-	// 把创建好的ClientConServerThread对象放入hm
+	/**
+	 * 把创建好的ClientConServerThread对象放入hashMap
+	 * @param uid
+	 * @param ccst
+	 */
 	public static void addClientConServerThread(String uid, ClientConServerThread ccst) {
 		threadOperator.put(uid, ccst);
 	}
 
-	// 通过uid取得线程
+	/**
+	 * 通过uid取得线程
+	 * @param uid
+	 * @return
+	 */
 	public static ClientConServerThread getClientServerThread(String uid) {
 		return threadOperator.get(uid);
 	}

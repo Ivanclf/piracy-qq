@@ -35,7 +35,13 @@ public class QQFriendList extends JFrame implements ActionListener, MouseListene
     // 标记好友是否在线
     Boolean[] friendListOnlineFlag, groupOnlineFlag;//标记群成员在线情况
     String MultiChatID = "qunliao";
-    public QQFriendList(String ownerId) {
+
+    /**
+     * 创建好友菜单主页面（准备废除，新的窗口在friendList）
+     * @param ownerId
+     * @param friendAmount 好友个数
+     */
+    public QQFriendList(String ownerId, int friendAmount) {
         this.ownerId = ownerId;
         // 处理第一张卡片(好友列表)
         myFriendInList = new JButton("我的好友");
@@ -123,7 +129,7 @@ public class QQFriendList extends JFrame implements ActionListener, MouseListene
                 m.setMsgType(MessageType.MESSAGE_EXIT);
                 m.setSender(ownerId);
                 try {
-                    ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(ownerId).getS().getOutputStream());
+                    ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(ownerId).getSocket().getOutputStream());
                     oos.writeObject(m);
 
                 } catch (Exception e1) {

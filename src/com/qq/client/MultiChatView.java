@@ -87,7 +87,7 @@ public class MultiChatView  extends JFrame implements ActionListener {
             messageInput.setText("");
 
             try{
-                ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerID).getS().getOutputStream());
+                ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerID).getSocket().getOutputStream());
                 oos.writeObject(m);
             }catch (Exception e1){
                 e1.printStackTrace();

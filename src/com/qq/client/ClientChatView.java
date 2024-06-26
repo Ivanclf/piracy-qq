@@ -109,7 +109,7 @@ public class ClientChatView  extends JFrame  implements ActionListener{
             messageInput.setText("");
 
             try{
-                ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerId).getS().getOutputStream());
+                ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerId).getSocket().getOutputStream());
                 oos.writeObject(m);
             } catch (IOException e1){
                 e1.printStackTrace();
@@ -133,7 +133,7 @@ public class ClientChatView  extends JFrame  implements ActionListener{
                 messageInput.setText("");
 
                 try{
-                    ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerId).getS().getOutputStream());
+                    ObjectOutputStream oos = new ObjectOutputStream(ManageClientConServerThread.getClientServerThread(this.ownerId).getSocket().getOutputStream());
                     oos.writeObject(m);
                 } catch (IOException e1){
                     e1.printStackTrace();
@@ -143,7 +143,7 @@ public class ClientChatView  extends JFrame  implements ActionListener{
     }
     public static void main(String[] args){
 
-        ClientChatView c = new ClientChatView("33","22");
+        new ClientChatView("33","22");
     }
 
 }

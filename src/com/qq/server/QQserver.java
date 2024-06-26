@@ -7,10 +7,12 @@ import java.net.*;
 import java.sql.ResultSet;
 
 public class QQserver {
-    SqlHelper sqlHelper = null;
-    int port = 9999;
+    private SqlHelper sqlHelper = null;
+    private int port = 9999;
 
-    //关闭资源
+    /**
+     * 服务器主程序
+     */
     public QQserver() {
         try {
 
@@ -27,10 +29,12 @@ public class QQserver {
                 // if(u.getUserId().equals("22") || u.getUserId().equals("33") || u.getUserId().equals("44"))
                 //数据库部分
                 sqlHelper = new SqlHelper();
-                String sql = "select QQPassword from QQUser where QQuserId=?";
+                String idCheck = "select QQPassword from QQUser where QQuserId=?";
+                String friendAmountCheck = "select QQfriend from QQUser where QQuserId=?";
                 String[] paras = {user.getUserId()};
-                ResultSet resultSet = sqlHelper.queryExecute(sql, paras);
+                ResultSet resultSet = sqlHelper.queryExecute(idCheck, paras);
                 String password = null;
+                int friendAmount = 0;
 
                 //注册部分
                 if (user.getIsRegister()) {
@@ -57,21 +61,22 @@ public class QQserver {
                     }
                 } else//登录部分
                 {
-                    resultSet = sqlHelper.queryExecute(sql, paras);
+                    resultSet = sqlHelper.queryExecute(idCheck, paras);
                     if (resultSet.next()) {
                         password = resultSet.getString("QQPassword").trim();
+                        friendAmount = Integer.parseInt(resultSet.getString("QQfriend").trim());
                     }
 
                     if (user.getPasswd().equals(password) && ManageClientThread.getClientThread(user.getUserId()) == null) {
                         //登录成功，开启一个新的线程连接
                         msg.setMsgType(MessageType.MESSAGE_SUCCEED);
+                        msg.setFriendAmount(friendAmount);
                         fromSocket.writeObject(msg);
                         ServerConClientThread serverConClientThread = new ServerConClientThread(socket);
                         ManageClientThread.addClientThread(user.getUserId(), serverConClientThread);
                         serverConClientThread.start();
 //                        System.out.println("测试是否开始下一个： 用户: " + user.getUserId());
                         serverConClientThread.notifyAllOtherFriends(ManageClientThread.getAllOnLineUserId());
-
                     } else {
                         msg.setMsgType(MessageType.MESSAGE_LOGIN_FAIL);
                         fromSocket.writeObject(msg);

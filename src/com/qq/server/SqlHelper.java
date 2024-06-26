@@ -99,6 +99,7 @@ public class SqlHelper {
     }
 
     public Boolean InsertData(String sql, String[] paras) {
+
         boolean doNotError = false;
         try {
             preparedStatement = connection.prepareStatement(sql);
